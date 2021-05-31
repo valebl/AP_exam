@@ -293,7 +293,7 @@ For a given number of nodes, `nodes`, an array containing the numbers `1, 2, ...
 The results obtained are shown in the following picture. We can see that the balanced bst and the map data structures perform very similarly.
 
 
-![alt text](bench.png "Benchmark Results")
+![alt text](bench.PNG "Benchmark Results")
 
 
 
