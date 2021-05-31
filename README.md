@@ -5,7 +5,7 @@ ___
 
 ## Python Exercise
 
-The solution to the proposed exercise is included in the file `python/test_exam.py`. The solution fully exploits list comprehensions.
+The solution to the proposed exercise is included in the file `python/reverse_dict.ipynb`. The file `python/test_exam.py` contains the function implemented and has been use to check that all tests are passed. The solution fully exploits list comprehensions.
 ___
 
 ## Implementation of a Binary Search Tree
