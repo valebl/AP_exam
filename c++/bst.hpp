@@ -2,11 +2,10 @@
 #include <memory>
 #include <utility>
 #include <string>
-#include <sstream>
 #include <vector>
 #include <iterator>
 
-// NODE =============================================================
+// NODE =================================================================================
 
 template <typename T>
 struct Node{
@@ -16,7 +15,7 @@ struct Node{
     std::unique_ptr<Node> left;
     std::unique_ptr<Node> right;
 
-    //++++++++++ CTOR AND DESTRUCTOR +++++++++++++++++++++++
+    //++++++++++ CTOR AND DESTRUCTOR ++++++++++++
 
     // custom ctor to create a void object root when we istantiate an object of bst
     Node() noexcept
@@ -55,7 +54,7 @@ struct Node{
 };
 
 
-//----------- OPERATORS ------------------------------------
+//----------- OPERATORS -------------------------
 
 template <typename T>
 std::ostream& operator<<(std::ostream& os, Node<T>& node){
@@ -78,7 +77,7 @@ template <typename N>
 bool operator!=(const Node<N>& lhs, const Node<N>& rhs) { return !(lhs==rhs); }
 
 
-// BST ========================================================================
+// BST ==================================================================================
 
 template <typename KT, typename VT, typename OP = std::less<KT>>
 class bst{
@@ -97,7 +96,7 @@ class bst{
     using iterator = Iterator<Node<T>>;
     using const_iterator = Iterator<const Node<T>>;
 
-    //++++++++++ CTOR AND DESTRUCTOR +++++++++++++++++++++++
+    //++++++++++ CTOR AND DESTRUCTOR ++++++++++++
 
     bst() noexcept : op{}, root{nullptr} {// custom ctor
         #ifdef __DEBUG
@@ -112,7 +111,7 @@ class bst{
 
     ~bst() noexcept = default; // deafault destructor
 
-    //++++++++++ COPY SEMANTICS +++++++++++++++++++++++
+    //++++++++++ COPY SEMANTICS +++++++++++++++++
     
     // auxiliary function to recursively deep-copy
     void _copy(const bst& b, std::unique_ptr<Node<T>>& ptr){
@@ -150,13 +149,13 @@ class bst{
         return *this;
     }
 
-    //++++++++++ MOVE SEMANTICS ++++++++++++++
+    //++++++++++ MOVE SEMANTICS +++++++++++++++++
 
     bst(bst&& t) noexcept = default; // move ctor (default is fine - no raw ptr)
     bst& operator=(bst&& t) noexcept = default; // move assignment (default is fine - no raw ptr)
     
 
-    //++++++++++ BEGIN +++++++++++++++++++++++
+    //++++++++++ BEGIN ++++++++++++++++++++++++++
 
     // _begin()
     const Node<T>* _begin() const noexcept;
@@ -167,7 +166,7 @@ class bst{
     const_iterator begin() const noexcept { return const_iterator{_begin()}; }
     const_iterator cbegin() const noexcept { return const_iterator{_begin()}; }
 
-    //++++++++++ END +++++++++++++++++++++++++
+    //++++++++++ END ++++++++++++++++++++++++++++
 
     // _end()
     const Node<T>* _end() const noexcept { return nullptr; }
@@ -179,7 +178,7 @@ class bst{
     const_iterator cend() const noexcept { return const_iterator{_end()}; }   
 
 
-    //++++++++++ INSERT +++++++++++++++++++++++
+    //++++++++++ INSERT +++++++++++++++++++++++++
 
     template <typename O>
     std::pair<iterator, bool> _insert(O&& x);
@@ -191,7 +190,7 @@ class bst{
         return _insert(x);
     }
 
-    //++++++++++ EMPLACE ++++++++++++++++++++++
+    //++++++++++ EMPLACE ++++++++++++++++++++++++
 
     template< class... Types >
     std::pair<iterator,bool> emplace(Types&&... args){
@@ -201,7 +200,7 @@ class bst{
         return insert(T{std::forward<Types>(args)...});
     }
 
-    //++++++++++ CLEAR ++++++++++++++++++++++++
+    //++++++++++ CLEAR ++++++++++++++++++++++++++
 
     void clear() noexcept{
         #ifdef __DEBUG
@@ -211,7 +210,7 @@ class bst{
         _size = 0;
     }
 
-    //+++++++++ FIND ++++++++++++++++++++++++++
+    //+++++++++ FIND ++++++++++++++++++++++++++++
 
     iterator find(const KT& x) noexcept{
         #ifdef __DEBUG
@@ -246,18 +245,18 @@ class bst{
         return iterator(nullptr);
     }
     
-    //++++++++ BALANCE ++++++++++++++++++++++++
+    //++++++++ BALANCE ++++++++++++++++++++++++++
 
     void balance();
     void _balance(std::vector<T>& v, long long int begin, long long int end);
 
-    //++++++++ SUBSCRIPTING +++++++++++++++++++
+    //++++++++ SUBSCRIPTING +++++++++++++++++++++
 
     VT& operator[](const KT& x) noexcept;
     VT& operator[](KT&& x) noexcept;
 
 
-    //++++++++ PUT-TO +++++++++++++++++++++++++
+    //++++++++ PUT-TO +++++++++++++++++++++++++++
 
     friend
     std::ostream& operator<<(std::ostream& os, const bst& b){
@@ -266,16 +265,16 @@ class bst{
         return os;
     }
 
-    //++++++++ _SWAP_NODES +++++++++++++++++++++++++
+    //++++++++ _SWAP_NODES ++++++++++++++++++++++
 
     void _swap_nodes(Node<T>& x, Node<T>& y, iterator& iter) noexcept;
 
-    //++++++++ ERASE +++++++++++++++++++++++++
+    //++++++++ ERASE ++++++++++++++++++++++++++++
 
     void erase(const KT& x) noexcept;
 
 
-    //+++++++ PRINT +++++++++++++++++++++++++
+    //+++++++ PRINT +++++++++++++++++++++++++++++
     void Print() noexcept;
 
     void _add_to_string(int level, const Node<T>* ptr, std::vector<std::string>& s) noexcept;
@@ -284,7 +283,7 @@ class bst{
 };
 
 
-// ITERATOR ==========================================================
+// ITERATOR =============================================================================
 
 template <typename KT, typename VT, typename OP>
 template<typename N>
@@ -299,7 +298,7 @@ struct bst<KT, VT, OP>::Iterator{
     using reference = value_type&;
     using pointer = value_type*;
 
-    //++++++++++ CTOR AND DESTRUCTOR +++++++++++++++
+    //++++++++++ CTOR AND DESTRUCTOR ++++++++++++
 
     explicit Iterator(value_type* current_ptr)
     : current_ptr{current_ptr} {
@@ -310,7 +309,7 @@ struct bst<KT, VT, OP>::Iterator{
 
     ~Iterator() noexcept = default;
 
-    //++++++++++ OPERATORS ++++++++++++++++++++++++++
+    //++++++++++ OPERATORS ++++++++++++++++++++++
 
     Iterator& operator++() noexcept; // pre-increment operator
 
@@ -328,7 +327,7 @@ struct bst<KT, VT, OP>::Iterator{
     
 };
 
-//===================================================================================
+//=======================================================================================
 
 
 template <typename KT, typename VT, typename OP>
@@ -340,7 +339,7 @@ using const_iterator = typename bst<KT,VT,OP>::const_iterator;
 
 // ITERATOR FUNCTION DEFINITIONS
 
-//----------- OPERATOR ++  ---------------------------------
+//----------- OPERATOR ++ -----------------------
 
 template <typename KT, typename VT, typename OP>
 template <typename N>
@@ -365,7 +364,7 @@ bst<KT, VT, OP>::Iterator<N>& bst<KT,VT,OP>::Iterator<N>::operator++() noexcept{
 
 // BST FUNCTION DEFINITION
 
-//----------- BEGIN ------------------------------------
+//----------- BEGIN -----------------------------
 
 // _begin()
 template <typename KT, typename VT, typename OP>
@@ -393,7 +392,7 @@ Node<std::pair<const KT, VT>>* bst<KT,VT,OP>::_begin() noexcept {
     return tmp;
 }    
 
-//----------- INSERT ------------------------------------
+//----------- INSERT ----------------------------
 
 template <typename KT, typename VT, typename OP>
 template <typename O>
@@ -439,7 +438,7 @@ std::pair<iterator<KT,VT,OP>, bool> bst<KT,VT,OP>::_insert(O&& x) {
 }
     
 
-//----------- BALANCE ------------------------------------
+//----------- BALANCE ---------------------------
 
 template <typename KT, typename VT, typename OP>
 void bst<KT,VT,OP>::balance(){
@@ -481,7 +480,7 @@ void bst<KT,VT,OP>::_balance(std::vector<T>& v, long long int begin, long long i
 }
 
 
-//----------- SUBSCRITPING OPERATOR ------------------------------------
+//----------- SUBSCRITPING OPERATOR -------------
 
 template <typename KT, typename VT, typename OP>
 VT& bst<KT,VT,OP>::operator[](const KT& x) noexcept{
@@ -505,7 +504,7 @@ VT& bst<KT,VT,OP>::operator[](KT&& x) noexcept{
     }   
 }
 
-//----------- _SWAP ------------------------------------
+//----------- _SWAP_NODES -----------------------
 
 template <typename KT, typename VT, typename OP>
 void bst<KT,VT,OP>::_swap_nodes(Node<std::pair<const KT, VT>>& x, Node<std::pair<const KT, VT>>& y, iterator& node_iter) noexcept{
@@ -584,7 +583,7 @@ void bst<KT,VT,OP>::_swap_nodes(Node<std::pair<const KT, VT>>& x, Node<std::pair
 }
 
 
-//----------- ERASE ----------------------------------------
+//----------- ERASE -----------------------------
 
 template <typename KT, typename VT, typename OP>
 void bst<KT,VT,OP>::erase(const KT& x) noexcept{
@@ -660,7 +659,7 @@ void bst<KT,VT,OP>::erase(const KT& x) noexcept{
 }
 
 
-//----------- PRINT ------------------------------------
+//----------- PRINT -----------------------------
 
 template <typename KT, typename VT, typename OP>
 void bst<KT,VT,OP>::Print() noexcept{
