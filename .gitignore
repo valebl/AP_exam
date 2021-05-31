@@ -1,1 +1,5 @@
+c++/benchmark.x
+c++/main.x
+c++/bench_bst.txt
 c++/bench_bst_balanced.txt
+c++/bench_map.txt
