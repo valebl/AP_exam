@@ -5,7 +5,7 @@ ___
 
 ## Python Exercise
 
-The solution to the proposed exercise is included in the file `test_exam.py`. The solution fully exploits list comprehensions.
+The solution to the proposed exercise is included in the file `python/test_exam.py`. The solution fully exploits list comprehensions.
 ___
 
 ## Implementation of a Binary Search Tree
