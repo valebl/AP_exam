@@ -1,4 +1,5 @@
 def reverse_dict(d):
+    
     keys = set(el for v in d.values() for el in v) # get all the keys for the reversed dictionary
     rd = {k:[]  for k in keys}  # build an empty dictionary 
     [[rd[v].append(k) for v in set(vals)] for k, vals in d.items()] # fill the reversed dictionary
