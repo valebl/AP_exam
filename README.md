@@ -14,13 +14,13 @@ ___
 
 The following files are provided:
 
-+ `bst.hpp` is the main file, containing all the implemantation of the BST
++ `c++/bst.hpp` is the main file, containing all the implemantation of the BST
 
-+ `main.cpp` is a an illustrative program that performs tests on the data structure functionalities
++ `c++/main.cpp` is a an illustrative program that performs tests on the data structure functionalities
 
-+ `benchmark.cpp` is a very simple benchmark program
++ `c++/benchmark.cpp` is a very simple benchmark program
 
-+ `Makefile` to compile all the source code
++ `c++/Makefile` to compile all the source code
 
 + `README.md` this file, with a short description of how to compile and run the code, a description of the implementation design and finally a short presentation of the benchmark results
 
