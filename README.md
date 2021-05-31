@@ -79,7 +79,7 @@ The class `Node` defines the Node data structure, and is essential for defyning 
 + `left` which is of type `std::unique_ptr` and points to the left child of the node
 + `right` which is of type `std::unique_ptr` and points to the right child of the node
 
-The appropriate custom custructors are defined. Following the design choices (new nodes only defined inside the `bst` class, const key), copy and move semantics are marked `delete`.
+The appropriate custom custructors are defined. Following the design choices (new nodes only defined inside the `bst` class, const key), copy and move semantics are marked `delete`. The destructor is marked `default`.
 
 ### Iterator
 
