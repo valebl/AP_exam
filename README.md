@@ -52,6 +52,8 @@ The following files are provided:
   ./benchmark.x
   ```
 
++ The code has been run using `valgrind` to test it against memory leaks
+
 ## Design
 
 The code consists in three classes: `bst`, `Node` and `Iterator`. The class `Iterator` is declared inside the class `bst`, while the class `Node` is declared outside.
