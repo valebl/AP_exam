@@ -267,7 +267,7 @@ class bst{
     friend
     std::ostream& operator<<(std::ostream& os, const bst& b){
         for (auto& x : b)
-            os << x << " ";
+            os << x.first << " ";
         return os;
     }
 
@@ -298,7 +298,7 @@ struct bst<KT, VT, OP>::Iterator{
     N* current_ptr;
 
   public:
-    using value_type = N;
+    using value_type = const std::pair<const KT, VT>;
     using difference_type = std::ptrdiff_t;
     using iterator_category = std::forward_iterator_tag;
     using reference = value_type&;
@@ -306,7 +306,7 @@ struct bst<KT, VT, OP>::Iterator{
 
     //++++++++++ CTOR AND DESTRUCTOR ++++++++++++
 
-    explicit Iterator(value_type* current_ptr)
+    explicit Iterator(N* current_ptr)
     : current_ptr{current_ptr} {
     #ifdef __DEBUG
     std::cout << "CALL: Iterator - calling custom ctor" << std::endl;
@@ -319,7 +319,7 @@ struct bst<KT, VT, OP>::Iterator{
 
     Iterator& operator++() noexcept; // pre-increment operator
 
-    reference operator*() const { return *current_ptr; } // dereference operator
+    reference operator*() const { return current_ptr->data; } // dereference operator
     pointer operator->() const noexcept { return &**this; } // arrow operator
 
 
@@ -357,7 +357,7 @@ bst<KT, VT, OP>::Iterator<N>& bst<KT,VT,OP>::Iterator<N>::operator++() noexcept{
         while (current_ptr->left)
             current_ptr = current_ptr->left.get();
     }else{
-        value_type* tmp = current_ptr->parent;
+        N* tmp = current_ptr->parent;
         while (tmp && current_ptr == tmp->right.get()){
             current_ptr = tmp;
             tmp = tmp->parent;
@@ -450,7 +450,7 @@ void bst<KT,VT,OP>::balance(){
     #endif
     std::vector<T> v;
     for (auto iter = begin(); iter != end(); ++iter)
-        v.push_back(iter->data);
+        v.push_back(*iter);
 
     long long int begin = 0;
     long long int end = _size - 1;

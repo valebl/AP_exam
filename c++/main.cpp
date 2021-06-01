@@ -217,7 +217,7 @@ int main() {
 
     std::cout << '\n' << "The returned iterator points to: ";
 
-    std::cout << *b1.find(5) << std::endl; 
+    std::cout << (*b1.find(5)).first << std::endl; 
 
     std::cout << std::endl;
 
