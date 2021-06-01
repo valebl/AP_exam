@@ -56,20 +56,6 @@ struct Node{
 
 //----------- OPERATORS -------------------------
 
-template <typename T>
-std::ostream& operator<<(std::ostream& os, Node<T>& node){
-    //os << "[" << node.data.first << "," << node.data.second << "]";
-    os << node.data.first;
-    return os;
-}
-
-template <typename T>
-std::ostream& operator<<(std::ostream& os, const Node<T>& node){
-    //os << "[" << node.data.first << "," << node.data.second << "]";
-    os << node.data.first;
-    return os;
-}
-
 template <typename N>
 bool operator==(const Node<N>& lhs, const Node<N>& rhs) { return lhs.data.first == rhs.data.first; }
 
