@@ -100,13 +100,13 @@ class bst{
     
     // auxiliary function to recursively deep-copy
     void _copy(const bst& b, std::unique_ptr<Node<T>>& ptr){
-    insert(ptr->data);
-    if (ptr->left)
-        _copy(b, ptr->left);
-    if (ptr->right)
-        _copy(b, ptr->right);
-    return;
-}
+        insert(ptr->data);
+        if (ptr->left)
+            _copy(b, ptr->left);
+        if (ptr->right)
+            _copy(b, ptr->right);
+        return;
+    }
     
     // copy ctor
     bst(const bst& t)
@@ -419,8 +419,8 @@ void bst<KT,VT,OP>::balance(){
     std::cout << "CALL: bst - balance" << std::endl;
     #endif
     std::vector<T> v;
-    for (auto iter = begin(); iter != end(); ++iter)
-        v.push_back(*iter);
+    for (auto x : *this)
+        v.push_back(x);
 
     long long int begin = 0;
     long long int end = _size - 1;
