@@ -371,19 +371,6 @@ bst<KT, VT, OP>::Iterator<T,NodeT>& bst<KT,VT,OP>::Iterator<T,NodeT>::operator++
 //----------- BEGIN -----------------------------
 
 // _begin()
-// template <typename KT, typename VT, typename OP>
-// Node<const std::pair<const KT, VT>>* bst<KT,VT,OP>::_begin() noexcept { 
-//     if (!(root)){
-//         std::cout << "The tree is empty";
-//         return nullptr;
-//     }
-//     auto tmp = root.get();     
-//     while (tmp->left){
-//         tmp = tmp->left.get();
-//     }
-//     return tmp;
-// }    
-
 template <typename KT, typename VT, typename OP>
 Node<std::pair<const KT, VT>>* bst<KT,VT,OP>::_begin() const noexcept {
     if (!(root)){
