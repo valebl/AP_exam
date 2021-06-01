@@ -90,11 +90,11 @@ class bst{
 
   public:
 
-    template <typename N>
+    template <typename T, typename NodeT>
     struct Iterator;
 
-    using iterator = Iterator<Node<T>>;
-    using const_iterator = Iterator<const Node<T>>;
+    using iterator = Iterator<T,Node<T>>;
+    using const_iterator = Iterator<const T, Node<T>>;
 
     //++++++++++ CTOR AND DESTRUCTOR ++++++++++++
 
@@ -158,8 +158,7 @@ class bst{
     //++++++++++ BEGIN ++++++++++++++++++++++++++
 
     // _begin()
-    const Node<T>* _begin() const noexcept;
-    Node<T>* _begin() noexcept;    
+    Node<T>* _begin() const noexcept;
 
     // begin() and cbegin()
     iterator begin() noexcept { return iterator{_begin()}; }
@@ -169,9 +168,8 @@ class bst{
     //++++++++++ END ++++++++++++++++++++++++++++
 
     // _end()
-    const Node<T>* _end() const noexcept { return nullptr; }
-    Node<T>* _end() noexcept { return nullptr; }
-
+    Node<T>* _end() const noexcept { return nullptr; }
+   
     // end() and cend()
     iterator end() noexcept { return iterator{_end()}; }
     const_iterator end() const noexcept { return const_iterator{_end()}; }
@@ -292,13 +290,13 @@ class bst{
 // ITERATOR =============================================================================
 
 template <typename KT, typename VT, typename OP>
-template<typename N>
+template<typename T, typename NodeT>
 struct bst<KT, VT, OP>::Iterator{
 
-    N* current_ptr;
+    NodeT* current_ptr;
 
   public:
-    using value_type = const std::pair<const KT, VT>;
+    using value_type = T;
     using difference_type = std::ptrdiff_t;
     using iterator_category = std::forward_iterator_tag;
     using reference = value_type&;
@@ -306,7 +304,7 @@ struct bst<KT, VT, OP>::Iterator{
 
     //++++++++++ CTOR AND DESTRUCTOR ++++++++++++
 
-    explicit Iterator(N* current_ptr)
+    explicit Iterator(NodeT* current_ptr)
     : current_ptr{current_ptr} {
     #ifdef __DEBUG
     std::cout << "CALL: Iterator - calling custom ctor" << std::endl;
@@ -324,11 +322,11 @@ struct bst<KT, VT, OP>::Iterator{
 
 
     friend
-    bool operator==(const bst<KT,VT,OP>::Iterator<N>& lhs, const bst<KT,VT,OP>::Iterator<N>& rhs) noexcept {
+    bool operator==(const bst<KT,VT,OP>::Iterator<T,NodeT>& lhs, const bst<KT,VT,OP>::Iterator<T,NodeT>& rhs) noexcept {
         return lhs.current_ptr == rhs.current_ptr; }
 
     friend
-    bool operator!=(const bst<KT,VT,OP>::Iterator<N>& lhs, const bst<KT,VT,OP>::Iterator<N>& rhs) noexcept {
+    bool operator!=(const bst<KT,VT,OP>::Iterator<T,NodeT>& lhs, const bst<KT,VT,OP>::Iterator<T,NodeT>& rhs) noexcept {
         return !(lhs==rhs); }
     
 };
@@ -348,8 +346,8 @@ using const_iterator = typename bst<KT,VT,OP>::const_iterator;
 //----------- OPERATOR ++ -----------------------
 
 template <typename KT, typename VT, typename OP>
-template <typename N>
-bst<KT, VT, OP>::Iterator<N>& bst<KT,VT,OP>::Iterator<N>::operator++() noexcept{ // pre-incrememnt enough for forward iterator
+template <typename T, typename NodeT>
+bst<KT, VT, OP>::Iterator<T,NodeT>& bst<KT,VT,OP>::Iterator<T,NodeT>::operator++() noexcept{ // pre-incrememnt enough for forward iterator
     if (!(current_ptr)){ // if it is a nullptr
         return *this;
     }else if (current_ptr->right){ // the successor is the furthermost left node in the right subtree
@@ -357,7 +355,7 @@ bst<KT, VT, OP>::Iterator<N>& bst<KT,VT,OP>::Iterator<N>::operator++() noexcept{
         while (current_ptr->left)
             current_ptr = current_ptr->left.get();
     }else{
-        N* tmp = current_ptr->parent;
+        NodeT* tmp = current_ptr->parent;
         while (tmp && current_ptr == tmp->right.get()){
             current_ptr = tmp;
             tmp = tmp->parent;
@@ -373,21 +371,21 @@ bst<KT, VT, OP>::Iterator<N>& bst<KT,VT,OP>::Iterator<N>::operator++() noexcept{
 //----------- BEGIN -----------------------------
 
 // _begin()
-template <typename KT, typename VT, typename OP>
-const Node<std::pair<const KT, VT>>* bst<KT,VT,OP>::_begin() const noexcept { 
-    if (!(root)){
-        std::cout << "The tree is empty";
-        return nullptr;
-    }
-    auto tmp = root.get();     
-    while (tmp->left){
-        tmp = tmp->left.get();
-    }
-    return tmp;
-}    
+// template <typename KT, typename VT, typename OP>
+// Node<const std::pair<const KT, VT>>* bst<KT,VT,OP>::_begin() noexcept { 
+//     if (!(root)){
+//         std::cout << "The tree is empty";
+//         return nullptr;
+//     }
+//     auto tmp = root.get();     
+//     while (tmp->left){
+//         tmp = tmp->left.get();
+//     }
+//     return tmp;
+// }    
 
 template <typename KT, typename VT, typename OP>
-Node<std::pair<const KT, VT>>* bst<KT,VT,OP>::_begin() noexcept {
+Node<std::pair<const KT, VT>>* bst<KT,VT,OP>::_begin() const noexcept {
     if (!(root)){
         std::cout << "The tree is empty";
         return nullptr;
