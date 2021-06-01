@@ -29,7 +29,7 @@ struct Node{
     Node(const T& data, Node* parent)
     : data{data}, parent{parent}, left{nullptr}, right{nullptr} {
         #ifdef __DEBUG
-        std::cout << "CALL: Iterator - calling custom ctor (with l-reference)" << std::endl;
+        std::cout << "CALL: Node - calling custom ctor (with l-reference)" << std::endl;
         #endif
     }
     
@@ -37,7 +37,7 @@ struct Node{
     Node(T&& data, Node* parent)
     : data{data}, parent{parent}, left{nullptr}, right{nullptr} {
         #ifdef __DEBUG
-        std::cout << "CALL: Iterator - calling custom ctor (with r-reference)" << std::endl;
+        std::cout << "CALL: Node - calling custom ctor (with r-reference)" << std::endl;
         #endif
     }
 
@@ -184,10 +184,16 @@ class bst{
     std::pair<iterator, bool> _insert(O&& x);
 
     std::pair<iterator, bool> insert(const T& x){
+        #ifdef __DEBUG
+        std::cout << "CALL: bst - insert (l)" << std::endl;
+        #endif
         return _insert(x);
     }
     std::pair<iterator, bool> insert(T&& x){
-        return _insert(x);
+        #ifdef __DEBUG
+        std::cout << "CALL: bst - insert (r)" << std::endl;
+        #endif
+        return _insert(std::move(x));
     }
 
     //++++++++++ EMPLACE ++++++++++++++++++++++++
@@ -397,9 +403,6 @@ Node<std::pair<const KT, VT>>* bst<KT,VT,OP>::_begin() noexcept {
 template <typename KT, typename VT, typename OP>
 template <typename O>
 std::pair<iterator<KT,VT,OP>, bool> bst<KT,VT,OP>::_insert(O&& x) {
-    #ifdef __DEBUG
-    std::cout << "CALL: bst - insert (r)" << std::endl;
-    #endif
     auto tmp = root.get();
     while (tmp){
         if (op(x.first,tmp->data.first)){
@@ -409,7 +412,7 @@ std::pair<iterator<KT,VT,OP>, bool> bst<KT,VT,OP>::_insert(O&& x) {
                 tmp->left.reset(new Node<T>{std::forward<O>(x), tmp});
                 _size++;
                 #ifdef __DEBUG
-                std::cout << "Inserting node with key " << x.first << " and parent " << *tmp << " (r)" << std::endl;
+                std::cout << "Inserting node with key " << x.first << " and parent " << *tmp << std::endl;
                 #endif
                 return std::pair<iterator, bool>{iterator{tmp->left.get()}, true};
             }
@@ -421,7 +424,7 @@ std::pair<iterator<KT,VT,OP>, bool> bst<KT,VT,OP>::_insert(O&& x) {
                 tmp->right.reset(new Node<T>{std::forward<O>(x), tmp});
                 _size++;
                 #ifdef __DEBUG
-                std::cout << "Inserting node with key " << x.first << " and parent " << *tmp << " (r)" << std::endl;
+                std::cout << "Inserting node with key " << x.first << " and parent " << *tmp << std::endl;
                 #endif
                 return std::pair<iterator, bool>{iterator{tmp->right.get()}, true};
             }
@@ -432,7 +435,7 @@ std::pair<iterator<KT,VT,OP>, bool> bst<KT,VT,OP>::_insert(O&& x) {
     root.reset(new Node<T>{std::forward<O>(x), nullptr});
     _size++;
     #ifdef __DEBUG
-    std::cout << "Inserted root node with key " << x.first << " (r)" << std::endl;
+    std::cout << "Inserted root node with key " << x.first << std::endl;
     #endif
     return std::pair<iterator, bool>{iterator{tmp}, true};
 }
