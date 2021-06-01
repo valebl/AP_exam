@@ -53,7 +53,6 @@ struct Node{
 
 };
 
-
 //----------- OPERATORS -------------------------
 
 template <typename N>
@@ -71,7 +70,7 @@ class bst{
     using T = std::pair<const KT, VT>;
 
     OP op {};
-    std::size_t _size {0};
+    std::size_t _size {0}; // number of nodes
     std::unique_ptr<Node<T>> root;
 
   public:
