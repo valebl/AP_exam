@@ -34,8 +34,8 @@ struct Node{
     }
     
     // custom ctor with r-reference
-    Node(T&& data, Node* parent)
-    : data{data}, parent{parent}, left{nullptr}, right{nullptr} {
+    Node(T&& data, Node* parent) noexcept
+    : data{std::move(data)}, parent{parent}, left{nullptr}, right{nullptr}{
         #ifdef __DEBUG
         std::cout << "CALL: Node - calling custom ctor (with r-reference)" << std::endl;
         #endif
@@ -387,11 +387,12 @@ std::pair<iterator<KT,VT,OP>, bool> bst<KT,VT,OP>::_insert(O&& x) {
                 return std::pair<iterator, bool>{iterator{tmp->left.get()}, true};
             }
         }
-        else if (!(op(x.first,tmp->data.first))){
+        else if (op(tmp->data.first, x.first)){
             if (tmp->right)
                 tmp = tmp->right.get();
             else{
-                tmp->right.reset(new Node<T>{std::forward<O>(x), tmp});
+                // tmp->right.reset(new Node<T>{std::forward<O>(x), tmp});
+                tmp->right = std::make_unique<Node<T>>(std::forward<O>(x),tmp));
                 _size++;
                 #ifdef __DEBUG
                 std::cout << "Inserting node with key " << x.first << " and parent " << *tmp << std::endl;
@@ -567,8 +568,7 @@ void bst<KT,VT,OP>::erase(const KT& x) noexcept{
     iterator node_iter = find(x);
 
     if (!node_iter.current_ptr) // the given key is not in the tree
-        return;
-    
+        return;    
 
     if (node_iter.current_ptr->left && node_iter.current_ptr->right) {
         #ifdef __DEBUG        
